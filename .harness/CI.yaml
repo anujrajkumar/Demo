@@ -34,5 +34,7 @@ pipeline:
                     shell: Sh
                     command: |-
                       ls -ltr
+                      chmod 777 hello.sh
                       ./hello.sh
+                      chmod 777 echo
                       ./echo
