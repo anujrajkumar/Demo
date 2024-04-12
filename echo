@@ -1,4 +1,4 @@
 #!/bin/bash 
-number=1000
+number=10000
 
 echo "Printed number is = $number"
