@@ -1,4 +1,4 @@
 #!/bin/bash 
-number=20
+number=50
 
 echo "Printed number is = $number"
