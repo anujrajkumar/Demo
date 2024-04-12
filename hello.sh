@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Define a variable
-number=10
+number=50
+num=11
 
 # Check if the number is greater than 5
 if [ $number -gt 5 ]; then
