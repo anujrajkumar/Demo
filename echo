@@ -1,0 +1,4 @@
+#!/bin/bash 
+number=12
+
+echo "Printed number is = $number"
