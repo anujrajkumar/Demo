@@ -1,0 +1,38 @@
+pipeline:
+  name: Trigger
+  identifier: Trigger
+  projectIdentifier: DotNetPipeline
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1704192628541
+        repoName: anujrajkumar/Demo
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Check
+                  identifier: Check
+                  spec:
+                    shell: Sh
+                    command: |-
+                      ls -ltr
+                      ./hello.sh
+                      ./echo
