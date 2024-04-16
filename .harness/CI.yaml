@@ -38,3 +38,176 @@ pipeline:
                       ./hello.sh
                       chmod 777 echo
                       ./echo
+              - step:
+                  type: Run
+                  name: notification
+                  identifier: notification
+                  spec:
+                    shell: Pwsh
+                    command: |-
+                      $date = Get-Date -Format "dddd yyyy/MM/dd HH:mm K"
+                      $url = "https://txplin.webhook.office.com/webhookb2/724c3229-7b14-4d18-9178-13a98b0513a7@d7e861c9-d924-4413-86db-05780e928657/IncomingWebhook/08d5130250694e88997469bbacad9753/92a96862-8e5d-4e1a-84c5-18a58a9d10a6"
+
+                      if("" -eq "$url"){
+                        Write-Error "Notification Channel URL is needed"
+                      }
+                      # if("" -eq "<+spec.envVariables.APPNAME>"){
+                      #   Write-Error "APPNAME is needed"
+                      # }
+
+                      # $artifact = "No Artifact Pushed"
+                      # if("" -ne "<+spec.envVariables.ArtifactZipName>"){
+                      #   $artifact = "<+spec.envVariables.Jfrog_Artifactory_URL><+spec.envVariables.ARTIFACT_TARGET>/<+spec.envVariables.ArtifactZipName>"
+                      # }
+
+                      # if("<+spec.envVariables.RUN_UNIT_TESTS>" -eq "NO"){
+                      #   $unitTests = "UnitTests were SKIPPED by user"
+                      # }
+                      # else{
+                      #   $unitTests = "No Unit Tests Available"
+                      # }
+                      # $testxml = Get-ChildItem -Path "./" -Filter "<+spec.envVariables.UnitTestXMLFileName>" -Recurse
+                      # if($testxml){
+                      #   [xml]$xml = Get-Content -Path $testxml.FullName
+                      #   $results = @{
+                      #     tests = $xml.testsuites.testsuite.tests ?? $xml.testsuite.tests
+                      #     errors = $xml.testsuites.testsuite.errors ?? $xml.testsuite.errors
+                      #     failures = $xml.testsuites.testsuite.failures ?? $xml.testsuite.failures
+                      #     skipped = $xml.testsuites.testsuite.skipped ?? $xml.testsuite.skipped
+                      #   }
+                      #   $unitTests = "Tests: $($results.tests), Errors: $($results.errors), Failures: $($results.failures), Skipped: $($results.skipped)"
+                      # }
+                      ######################################################################################################################################################################################
+                      $coverage = "0"
+
+                      # $SONARQUBE_HOST = "<+spec.envVariables.Sonar_Host>"
+                      # $SONARQUBE_TOKEN = "<+secrets.getValue("account.sonarqube_access_token")>"
+                      # #API Toke Encoding
+                      # $encodedBytes = [System.Text.Encoding]::UTF8.GetBytes("${SONARQUBE_TOKEN}:")
+                      # $encodedToken = [System.Convert]::ToBase64String($encodedBytes)
+                      # $headers = @{
+                      #   "Authorization" = "Basic $encodedToken"
+                      # }
+
+                      # $componentKey = "<+spec.envVariables.SonarProject_Key>"
+                      # $metricKey = "coverage"
+
+                      # # Construct the project coverage API URL
+                      # $coverageUrl = "$SONARQUBE_HOST/api/measures/component?component=$componentKey&metricKeys=$metricKey&branch=<+codebase.branch>"
+
+                      # $coverageResponse = Invoke-RestMethod $coverageUrl -Method 'GET' -Headers $headers
+
+                      # # Process the coverage response
+                      # if($coverageResponse.component.measures){
+                      #   $coverage = $coverageResponse.component.measures[0].value
+                      #   Write-Output "Coverage $coverage"
+                      # }
+
+                      ################################################################################################################################################################################################
+
+                      $status = "SUCCESS"
+                      $notificationTheme = "0076D7"
+                      $notificationImage = "data:image/png;base64,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"
+                      # if("<+spec.envVariables.BuildStepGroup_Status>" -eq "FAILED" -or "<+spec.envVariables.BuildStepGroup_Status>" -eq "SKIPPED"){
+                      #   if(!$testxml){
+                      #     $unitTests = "SKIPPED due to Previous Failure"
+                      #   }
+                      #   $artifact = "SKIPPED due to Previous Failure"
+                      #   $status = "FAILED"
+                      #   $notificationTheme = "FF0000"
+                      #   $notificationImage = "https://static.vecteezy.com/system/resources/previews/017/178/563/non_2x/cross-check-icon-symbol-on-transparent-background-free-png.png"
+                      # }
+                      # elseif("<+spec.envVariables.ArtifactStepGroup_Status>" -eq "FAILED"){
+                      #   if("<+spec.envVariables.PackArtifactStep_Status>" -eq "FAILED"){
+                      #     $artifact = "SKIPPED due to Previous Failure"
+                      #     $coverage = "SKIPPED due to Previous Failure"
+                      #   }
+                      #   elseif("<+spec.envVariables.PushArtifactStep_Status>" -eq "FAILED"){
+                      #     $artifact = "Artifact Push Failed"
+                      #   }
+                      #   $status = "FAILED"
+                      #   $notificationTheme = "FF0000"
+                      #   $notificationImage = "https://static.vecteezy.com/system/resources/previews/017/178/563/non_2x/cross-check-icon-symbol-on-transparent-background-free-png.png"
+                      # }
+
+                      $body = @{
+                        "@type" = "MessageCard"
+                        "@context" = "http://schema.org/extensions"
+                        "themeColor" = "$notificationTheme"
+                        "summary" = "Stage Completed"
+                        "sections" = @(
+                          @{
+                            "activityTitle" = "<+pipeline.name> Build Status"
+                            "activitySubtitle" = "In Project <+project.name>"
+                            "activityImage" = "$notificationImage"
+                            "facts" = @(
+                              @{
+                                "name" = "Message"
+                                "value" = "<+spec.envVariables.APPNAME> Build Status Notification"
+                              },
+                              @{
+                                "name" = "Project"
+                                "value" = "<+project.name>"
+                              },
+                              @{
+                                "name" = "Pipeline"
+                                "value" = "<+pipeline.name>"
+                              },
+                              @{
+                                "name" = "Triggered By"
+                                "value" = "<+pipeline.triggeredBy.name>"
+                              },
+                              @{
+                                "name" = "Repository"
+                                "value" = "<+codebase.repoUrl>"
+                              },
+                              @{
+                                "name" = "Codebase Branch"
+                                "value" = "<+codebase.branch>"
+                              },
+                              @{
+                                "name" = "Artifact Location"
+                                "value" = "artifact"
+                              },
+                              @{
+                                "name" = "Built on"
+                                "value" = "$date"
+                              },
+                              @{
+                                "name" = "Unit Test Results"
+                                "value" = "unitTests"
+                              },
+                              @{
+                                "name" = "SonarQube Coverage"
+                                "value" = "$coverage `%"
+                              },
+                              @{
+                                "name" = "Status"
+                                "value" = "$status"
+                              }
+                            )
+                            "markdown" = $true
+                          }
+                        )
+                        "potentialAction" = @(
+                          @{
+                            "@type" = "OpenUri"
+                            "name" = "Execution"
+                            "targets" = @(
+                              @{
+                                "os" = "default"
+                                "uri" = "<+pipeline.executionUrl>"
+                              }
+                            )
+                          }
+                        )
+                      } | ConvertTo-Json -Depth 10 -Compress
+
+                      write-output $body
+
+                      try{
+                        Invoke-WebRequest -Uri $url -Method Post -Body $body -ContentType "application/json"
+                      }
+                      catch{
+                        Write-Host "Error: $_"
+                      }
