@@ -38,3 +38,23 @@ pipeline:
                       ./hello.sh
                       chmod 777 echo
                       ./echo
+
+                      echo "<+stage.variables.hello>"
+                      echo "<+stage.variables.bye>"
+                      echo "<+stage.variables.tata>"
+        variables:
+          - name: hello
+            type: String
+            description: ""
+            required: true
+            value: <+input>
+          - name: tata
+            type: String
+            description: ""
+            required: true
+            value: <+input>
+          - name: bye
+            type: String
+            description: ""
+            required: false
+            value: <+input>
