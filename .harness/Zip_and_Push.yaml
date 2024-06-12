@@ -1,0 +1,28 @@
+inputSet:
+  name: Zip and Push
+  identifier: Zip_and_Push
+  orgIdentifier: default
+  projectIdentifier: DotNetPipeline
+  pipeline:
+    identifier: Trigger
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
+    stages:
+      - stage:
+          identifier: Build
+          type: CI
+          variables:
+            - name: hello
+              type: String
+              value: hello
+            - name: tata
+              type: String
+              value: tata
+            - name: bye
+              type: String
+              value: bye
