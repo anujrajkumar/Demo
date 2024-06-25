@@ -42,6 +42,8 @@ pipeline:
                       echo "<+stage.variables.hello>"
                       echo "<+stage.variables.bye>"
                       echo "<+stage.variables.tata>"
+                      echo "<+trigger.event>"
+                      echo "<+pipeline.triggerType>"
               - step:
                   type: Run
                   name: test
