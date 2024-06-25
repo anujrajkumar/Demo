@@ -55,7 +55,7 @@ pipeline:
                       echo "<+pipeline.triggerType>"
                   when:
                     stageStatus: Success
-                    condition: <+trigger.pipeline.triggerType> == "MANUAL"
+                    condition: <+pipeline.triggerType> == "MANUAL"
         variables:
           - name: hello
             type: String
