@@ -42,6 +42,18 @@ pipeline:
                       echo "<+stage.variables.hello>"
                       echo "<+stage.variables.bye>"
                       echo "<+stage.variables.tata>"
+              - step:
+                  type: Run
+                  name: test
+                  identifier: test
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "trigger manually"
+                      echo "<+pipeline.triggerType>"
+                  when:
+                    stageStatus: Success
+                    condition: <+trigger.pipeline.triggerType> == "MANUAL"
         variables:
           - name: hello
             type: String
