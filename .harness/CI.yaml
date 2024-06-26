@@ -53,6 +53,7 @@ pipeline:
                     command: |-
                       echo "trigger manually"
                       echo "<+pipeline.triggerType>"
+                      echo "<+stage.variables.bye>"
                   when:
                     stageStatus: Success
                     condition: <+pipeline.triggerType> == "MANUAL"
